@@ -4,7 +4,7 @@
 
 .global ef_Spawn
 ef_Spawn:
-/* 8005FDDC 0005C9BC  7C 08 02 A6 */	mflr r0
+/* 8005FDDC 0005C9BC  4E 80 00 20 */	blr
 /* 8005FDE0 0005C9C0  90 01 00 04 */	stw r0, 4(r1)
 /* 8005FDE4 0005C9C4  94 21 FD 98 */	stwu r1, -0x268(r1)
 /* 8005FDE8 0005C9C8  DB E1 02 60 */	stfd f31, 0x260(r1)
