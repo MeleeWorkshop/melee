@@ -12,31 +12,20 @@ ucf_dashback:
 .set REG_InputIndex,29
 .set REG_PrevInput,28
 
-NTSC102:
-	.set	Injection,0x800C9A44
+.set	InputIndex,HSD_PadLibData
+.set	InputArray,lbl_8046B108
+.set	PlayerBlock_LoadPlayerGObj,Player_GetEntityAtIndex
+
+# NTSC102:
+# todo: version symbols
 	.set	OFST_PlCo,-0x514C
-	.set	InputIndex,0x804c1f78
-	.set	InputArray,0x8046b108
-	.set	PlayerBlock_LoadPlayerGObj,0x8003418c
 /*
 NTSC101:
-	.set	Injection,0x800C97D0
 	.set	OFST_PlCo,-0x514C
-	.set	InputIndex,0x804c1258
-	.set	InputArray,0x8046a428
-	.set	PlayerBlock_LoadPlayerGObj,0x8003418C
 NTSC100:
-	.set	Injection,0x800C968C
 	.set	OFST_PlCo,-0x514C
-	.set	InputIndex,0x804bfdf8
-	.set	InputArray,0x80469140
-	.set	PlayerBlock_LoadPlayerGObj,0x8003410C
 PAL100:
-	.set	Injection,0x800CA1E8
 	.set	OFST_PlCo,-0x4F0C
-	.set	InputIndex,0x804b2ff8
-	.set	InputArray,0x8045bf10
-	.set	PlayerBlock_LoadPlayerGObj,0x80034780
 */
 
 #Original codeline
@@ -71,7 +60,7 @@ SKIP_IF_NANA:
 	bne Injection_Exit
 
 BEGIN_HW_INPUTS:
-	load r3,0x804c1f78
+	load r3,HSD_PadLibData
 	lbz REG_InputIndex,0x1(r3)    # HSD_PadRenewMasterStatus gets index for which inputs to get from here
 
 LOAD_2_FRAMES_PAST_INPUTS:
@@ -137,7 +126,7 @@ FETCH_INPUT:   # Gets hw input according to controller port and frame index in r
 	addi r3, r3, 5
 
 GET_INPUT:
-	load r4,0x8046b108  # Input array location.
+	load r4,InputArray
 	mulli r3, r3, 48
 	add r4, r4, r3  # Add index to get inputs from the right frame
 	mulli r3, r5, 0xC

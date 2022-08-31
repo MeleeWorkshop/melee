@@ -31,8 +31,8 @@ struct datetime {
 static u32 arena_size;
 static BOOL lbl_804D6594;
 
-static u8 lbl_8046B108[0xF0];
-static HSD_PadRumbleListData lbl_8046B1F8[12];
+u8 lbl_8046B108[0xF0];
+HSD_PadRumbleListData lbl_8046B1F8[12];
 
 static void lbl_8015FD24(void)
 {
