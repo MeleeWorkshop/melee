@@ -1,6 +1,6 @@
 #To be inserted at 800C9A44
-.include "asm/ucf/common.s"
 .include "macros.inc"
+.include "asm/ucf/common.s"
 
 .section .text
 
