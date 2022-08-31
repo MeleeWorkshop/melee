@@ -1,9 +1,4 @@
-################################################################################
-# Address: 0x800998A4
-# Playback: Include
-################################################################################
-.include "macros.inc"
-.include "asm/ucf/slippi_common.s"
+.include "asm/ucf/ucf_common.s"
 
 .section .text
 
@@ -14,20 +9,6 @@ ucf_spotdodge:
 .set  REG_PlayerGObj,30
 .set  REG_Floats,29
 
-NTSC102:
-	.set	Injection,0x800998A4
-	.set	OFST_PlCo,-0x514C
-/*
-NTSC101:
-	.set	Injection,0x800996E0
-	.set	OFST_PlCo,-0x514C
-NTSC100:
-	.set	Injection,0x800995F8
-	.set	OFST_PlCo,-0x514C
-PAL100:
-	.set	Injection,0x80099F5C
-	.set	OFST_PlCo,-0x4F0C
-*/
 backup
 
 #Init

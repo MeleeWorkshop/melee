@@ -1,6 +1,4 @@
-#To be inserted at 800908f4
-.include "macros.inc"
-.include "asm/ucf/slippi_common.s"
+.include "asm/ucf/ucf_common.s"
 
 .section .text
 
