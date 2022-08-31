@@ -843,6 +843,6 @@ TEXT_O_FILES +=\
 	$(BUILD_DIR)/asm/sysdolphin/baselib/baselib_unknown_001.s.o\
 
 TEXT_O_FILES +=\
-	$(BUILD_DIR)/asm/ucf/ucf_db.s.o\
-	$(BUILD_DIR)/asm/ucf/ucf_sd.s.o\
+	$(BUILD_DIR)/asm/ucf/ucf_dashback.s.o\
+	$(BUILD_DIR)/asm/ucf/ucf_spotdodge.s.o\
 	$(BUILD_DIR)/asm/ucf/ucf_tumble.s.o\

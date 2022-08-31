@@ -7,8 +7,8 @@
 
 .section .text
 
-.global ucf_sd
-ucf_sd:
+.global ucf_spotdodge
+ucf_spotdodge:
 
 .set  REG_PlayerData,31
 .set  REG_PlayerGObj,30

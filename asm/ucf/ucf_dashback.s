@@ -4,8 +4,8 @@
 
 .section .text
 
-.global ucf_db
-ucf_db:
+.global ucf_dashback
+ucf_dashback:
 
 .set REG_PlayerData,31
 .set REG_Floats,30
