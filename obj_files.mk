@@ -14,6 +14,7 @@ EXTABINDEX_O_FILES :=\
 
 TEXT_O_FILES :=\
 	$(BUILD_DIR)/asm/ucf/ucf_db.s.o\
+	$(BUILD_DIR)/asm/ucf/ucf_sd.s.o\
 
 TEXT_O_FILES +=\
 	$(BUILD_DIR)/src/melee/lb/lbcommand.c.o\

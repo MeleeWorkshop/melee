@@ -4,6 +4,9 @@
 
 .section .text
 
+.global ucf_db
+ucf_db:
+
 .set REG_PlayerData,31
 .set REG_Floats,30
 .set REG_InputIndex,29
@@ -37,8 +40,6 @@ PAL100:
 */
 
 #Original codeline
-.global ucf_db
-ucf_db:
 	stfs f0,0x2C(REG_PlayerData)    # Entry point, store new facing direction
 
 #Init
