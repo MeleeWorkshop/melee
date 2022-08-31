@@ -13,6 +13,9 @@ EXTABINDEX_O_FILES :=\
     $(BUILD_DIR)/asm/extabindex.s.o
 
 TEXT_O_FILES :=\
+	$(BUILD_DIR)/asm/ucf/ucf_db.s.o\
+
+TEXT_O_FILES +=\
 	$(BUILD_DIR)/src/melee/lb/lbcommand.c.o\
 	$(BUILD_DIR)/asm/melee/lb/lbcollision.s.o\
 	$(BUILD_DIR)/src/melee/lb/lblanguage.c.o\
