@@ -8,7 +8,7 @@ jobs:
   build:
     strategy:
       matrix:
-        makeflags: ["GENERATE_MAP=1", "NON_MATCHING=1", "SKIP_CHECK=1"]
+        makeflags: ["NON_MATCHING=1", "SKIP_CHECK=1"]
     runs-on: ubuntu-latest
     container: devkitpro/devkitppc:latest
     steps:
