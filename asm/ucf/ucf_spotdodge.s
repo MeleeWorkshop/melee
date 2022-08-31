@@ -3,7 +3,7 @@
 # Playback: Include
 ################################################################################
 .include "macros.inc"
-.include "asm/ucf/common.s"
+.include "asm/ucf/slippi_common.s"
 
 .section .text
 

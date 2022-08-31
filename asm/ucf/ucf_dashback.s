@@ -1,6 +1,6 @@
 #To be inserted at 800C9A44
 .include "macros.inc"
-.include "asm/ucf/common.s"
+.include "asm/ucf/slippi_common.s"
 
 .section .text
 
