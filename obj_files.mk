@@ -13,11 +13,6 @@ EXTABINDEX_O_FILES :=\
     $(BUILD_DIR)/asm/extabindex.s.o
 
 TEXT_O_FILES :=\
-	$(BUILD_DIR)/asm/ucf/ucf_db.s.o\
-	$(BUILD_DIR)/asm/ucf/ucf_sd.s.o\
-	$(BUILD_DIR)/asm/ucf/ucf_tumble.s.o\
-
-TEXT_O_FILES +=\
 	$(BUILD_DIR)/src/melee/lb/lbcommand.c.o\
 	$(BUILD_DIR)/asm/melee/lb/lbcollision.s.o\
 	$(BUILD_DIR)/src/melee/lb/lblanguage.c.o\
@@ -846,3 +841,8 @@ TEXT_O_FILES +=\
 TEXT_O_FILES +=\
 	$(BUILD_DIR)/src/sysdolphin/baselib/baselib_unknown_001.c.o\
 	$(BUILD_DIR)/asm/sysdolphin/baselib/baselib_unknown_001.s.o\
+
+TEXT_O_FILES +=\
+	$(BUILD_DIR)/asm/ucf/ucf_db.s.o\
+	$(BUILD_DIR)/asm/ucf/ucf_sd.s.o\
+	$(BUILD_DIR)/asm/ucf/ucf_tumble.s.o\
