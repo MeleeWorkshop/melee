@@ -10,9 +10,6 @@ ucf_tumble:
   .set REG_PrevInput,29
   .set REG_HSDPad,28
 
-.set  OFST_PlCo,-0x514C
-.set  HSD_Pad,0x804c1f78 #r31 @ 0x80377DC0
-
   backup
 
   #Cardinal direction held check:
@@ -32,7 +29,7 @@ ucf_tumble:
     bge END
 
   BEGIN_HW_INPUTS:
-      load REG_HSDPad,HSD_Pad
+      load REG_HSDPad,InputIndex
       lbz REG_InputIndex,0x1(REG_HSDPad)    # HSD_PadRenewMasterStatus gets index for which inputs to get from here
 
   LOAD_2_FRAMES_PAST_INPUTS:
