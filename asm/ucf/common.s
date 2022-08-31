@@ -67,7 +67,7 @@ subf \reg, \reg_temp, \reg
 .endm
 
 .macro bp
-branchl r12, 0x8021b2d8
+branchl r12, lbl_8021B2D8
 .endm
 
 .set BKP_FREE_SPACE_OFFSET, 0x38 # This is where the free space in our stack starts
@@ -139,7 +139,7 @@ addi r3, r3, 3
 bl 0b
 mflr r4
 crset 6
-branchl r12, 0x80323cf4 # sprintf
+branchl r12, sprintf
 
 lwz r3, OFST_R13_SB_ADDR(r13) # Buf to use as EXI buf
 
@@ -177,25 +177,26 @@ backupall
 # Call OSReport
 bl 0b
 mflr r3
-branchl r12, 0x803456a8 # OSReport
+branchl r12, OSReport
 
 restoreall
 .endm
 
 .macro getMinorMajor reg
-lis \reg, 0x8048 # load address to offset from for scene controller
-lwz \reg, -0x62D0(\reg) # Load from 0x80479D30 (scene controller)
+lis \reg, lbl_80479D30@ha # load address to offset from for scene controller
+lwz \reg, lbl_80479D30@l(\reg) # Load from 0x80479D30 (scene controller)
 rlwinm \reg, \reg, 8, 0xFFFF # Loads major and minor scene into bottom of reg
 .endm
 
 .macro getMajorId reg
-lis \reg, 0x8048 # load address to offset from for scene controller
-lbz \reg, -0x62D0(\reg) # Load byte from 0x80479D30 (major ID)
+lis \reg, lbl_80479D30@ha # load address to offset from for scene controller
+lbz \reg, lbl_80479D30@l(\reg) # Load byte from 0x80479D30 (major ID)
 .endm
 
 .macro loadGlobalFrame reg
-lis \reg, 0x8048
-lwz \reg, -0x62A0(\reg)
+.set lbl_80479D60, lbl_80479D30 + 0x30
+lis \reg, lbl_80479D60@ha
+lwz \reg, lbl_80479D60@l(\reg)
 .endm
 
 # This macro takes in an address that is expected to have a branch instruction. It will set
@@ -227,173 +228,123 @@ add \reg, r3, r4
 # Static Function Locations
 ################################################################################
 # Local functions (added by us)
-.set FN_EXITransferBuffer,0x800055f0
-.set FN_GetIsFollower,0x800055f8
-.set FN_ProcessGecko,0x800055fc
-.set FN_MultiplyRWithF,0x800055ec
-.set FN_IntToFloat,0x800055f4
-.set FG_CreateSubtext,0x800056b4
-.set FN_LoadChatMessageProperties,0x800056ac
-.set FN_GetTeamCostumeIndex,0x800056b0
-.set FN_GetCSSIconData,0x800056b8
-.set FN_AdjustNullID,0x80005694
-.set FN_CheckAltStageName,0x80005690
-.set FN_GetCSSIconNum,0x80005698
-.set FN_LoadPremadeText, 0x800056a4
-.set FN_GetSSMIndex,0x800056a0
-.set FN_GetFighterNum,0x8000569c
-.set FN_CSSUpdateCSP,0x800056bc
-.set FN_RequestSSM,0x800056a8
-.set FN_GetCommonMinorID,0x8000561c
-# available addresses for static functions
-# 0x8000568C
+.set FN_EXITransferBuffer,GeckoHeapPtr - 0x10
+.set FN_GetIsFollower,GeckoHeapPtr - 0x8
+.set FN_ProcessGecko,GeckoHeapPtr - 0x4
+.set FN_MultiplyRWithF,GeckoHeapPtr - 0x14
+.set FN_IntToFloat,GeckoHeapPtr - 0xC
+.set FG_CreateSubtext,GeckoHeapPtr + 0xB4
+.set FN_LoadChatMessageProperties,GeckoHeapPtr + 0xAC
+.set FN_GetTeamCostumeIndex,GeckoHeapPtr + 0xB0
+.set FN_GetCSSIconData,GeckoHeapPtr + 0xB8
+.set FN_AdjustNullID,GeckoHeapPtr + 0x94
+.set FN_CheckAltStageName,GeckoHeapPtr + 0x90
+.set FN_GetCSSIconNum,GeckoHeapPtr + 0x98
+.set FN_LoadPremadeText,GeckoHeapPtr + 0xA4
+.set FN_GetSSMIndex,GeckoHeapPtr + 0xA0
+.set FN_GetFighterNum,GeckoHeapPtr + 0x9C
+.set FN_CSSUpdateCSP,GeckoHeapPtr + 0xBC
+.set FN_RequestSSM,GeckoHeapPtr + 0xA8
+.set FN_GetCommonMinorID,GeckoHeapPtr + 0x1C
 
 # Online static functions
-.set FN_CaptureSavestate,0x80005608
-.set FN_LoadSavestate,0x8000560C
-.set FN_LoadMatchState,0x80005610
-.set FG_UserDisplay,0x80005618
+.set FN_CaptureSavestate,GeckoHeapPtr + 0x8
+.set FN_LoadSavestate,GeckoHeapPtr + 0xC
+.set FN_LoadMatchState,GeckoHeapPtr + 0x10
+.set FG_UserDisplay,GeckoHeapPtr + 0x18
 
 # The rest of these are NTSC v1.02 functions
 ## HSD functions
-.set HSD_Randi,0x80380580
-.set HSD_MemAlloc,0x8037f1e4
-.set HSD_Free,0x8037f1b0
-.set HSD_PadFlushQueue,0x80376d04
-.set HSD_StartRender,0x80375538
-.set HSD_VICopyXFBASync,0x803761c0
-.set HSD_PerfSetStartTime,0x8037E214
-.set HSD_PadRumbleActiveID,0x80378430
-.set HSD_ArchiveGetPublicAddress, 0x80380358
+.set HSD_PadFlushQueue,func_80376D04
+.set HSD_VICopyXFBASync,func_803761C0
+.set HSD_PadRumbleActiveID,func_80378430
 
 ## GObj functions
-.set GObj_Create,0x803901f0 #(obj_type,subclass,priority)
-.set GObj_AddUserData,0x80390b68 #void (*GObj_AddUserData)(GOBJ *gobj, int userDataKind, void *destructor, void *userData) = (void *)0x80390b68;
-.set GObj_Destroy,0x80390228
-.set GObj_AddProc,0x8038fd54 # (obj,func,priority)
-.set GObj_RemoveProc,0x8038fed4
-.set GObj_AddToObj,0x80390A70 #(gboj,obj_kind,obj_ptr)
-.set GObj_SetupGXLink, 0x8039069c #(gobj,function,gx_link,priority)
-
-## AObj Functions
-.set AObj_SetEndFrame, 0x8036532C #(aobj, frame)
+.set GObj_Create,func_803901F0 #(obj_type,subclass,priority)
+.set GObj_AddUserData,GObj_InitUserData #void (*GObj_AddUserData)(GOBJ *gobj, int userDataKind, void *destructor, void *userData) = (void *)GObj_InitUserData;
+.set GObj_Destroy,func_80390228
+.set GObj_AddProc,func_8038FD54 # (obj,func,priority)
+.set GObj_RemoveProc,func_8038FED4
+.set GObj_AddToObj,func_80390A70 #(gboj,obj_kind,obj_ptr)
 
 ## JObj Functions
-.set JObj_GetJObjChild,0x80011e24
-.set JObj_RemoveAnimAll,0x8036f6b4
-.set JObj_LoadJoint, 0x80370E44 #(jobj_desc_ptr)
-.set JObj_AddAnim, 0x8036FA10 # (jobj,an_joint,mat_joint,sh_joint)
-.set JObj_AddAnimAll, 0x8036FB5C # (jobj,an_joint,mat_joint,sh_joint)
-.set JObj_ReqAnim, 0x8036F934 #(HSD_JObj* jobj, f32 frame)
-.set JObj_ReqAnimAll, 0x8036F8BC #(HSD_JObj* jobj, f32 frame)
-.set JObj_Anim, 0x80370780 #(jobj)
-.set JObj_AnimAll, 0x80370928 #(jobj)
-.set JObj_ClearFlags, 0x80371f00 #(jobj,flags)
-.set JObj_ClearFlagsAll, 0x80371F9C #(jobj,flags)
-.set JObj_SetFlags, 0x80371D00 # (jobj,flags)
-.set JObj_SetFlagsAll, 0x80371D9c # (jobj,flags)
+.set JObj_GetJObjChild,func_80011E24
+.set JObj_RemoveAnimAll,HSD_JObjRemoveAnimAll
+.set JObj_ClearFlags, HSD_JObjClearFlags #(jobj,flags)
+.set JObj_SetFlagsAll, HSD_JObjSetFlagsAll # (jobj,flags)
 
 ## Text functions
-.set Text_AllocateMenuTextMemory,0x803A5798
-.set Text_FreeMenuTextMemory,0x80390228 # Not sure about this one, but it has a similar behavior to the Allocate
-.set Text_CreateStruct,0x803a6754
-.set Text_AllocateTextObject,0x803a5acc
-.set Text_CopyPremadeTextDataToStruct,0x803a6368# (text struct, index on open menu file, cannot be used, jackpot=will change to memory address we want)
-.set Text_InitializeSubtext,0x803a6b98
-.set Text_UpdateSubtextSize,0x803a7548
-.set Text_ChangeTextColor,0x803a74f0
-.set Text_DrawEachFrame,0x803a84bc
-.set Text_UpdateSubtextContents,0x803a70a0
-.set Text_RemoveText,0x803a5cc4
-
-## EXI functions
-.set EXIAttach,0x803464c0
-.set EXILock,0x80346d80
-.set EXISelect,0x80346688
-.set EXIDma,0x80345e60
-.set EXISync,0x80345f4c
-.set EXIDeselect,0x803467b4
-.set EXIUnlock,0x80346e74
-.set EXIDetach,0x803465cc
+.set Text_AllocateMenuTextMemory,func_803A5798
+.set Text_FreeMenuTextMemory,func_80390228 # Not sure about this one, but it has a similar behavior to the Allocate
+.set Text_CreateStruct,func_803A6754
+.set Text_AllocateTextObject,func_803A5ACC
+.set Text_CopyPremadeTextDataToStruct,func_803A6368# (text struct, index on open menu file, cannot be used, jackpot=will change to memory address we want)
+.set Text_InitializeSubtext,func_803A6B98
+.set Text_UpdateSubtextSize,func_803A7548
+.set Text_ChangeTextColor,func_803A74F0
+.set Text_DrawEachFrame,func_803A84BC
+.set Text_UpdateSubtextContents,func_803A70A0
+.set Text_RemoveText,func_803A5CC4
 
 ## Nametag data functions
-.set Nametag_LoadSlotText,0x8023754c
-.set Nametag_SetNameAsInUse,0x80237a04
-.set Nametag_GetNametagBlock,0x8015cc9c
-
-## VI/GX functions
-.set GXInvalidateVtxCache,0x8033c898
-.set GXInvalidateTexAll,0x8033f270
-.set VIWaitForRetrace,0x8034f314
-.set VISetBlack,0x80350100
-
-.set OSDisableInterrupts, 0x80347364
-.set OSRestoreInterrupts, 0x8034738c
-.set OSCancelAlarm, 0x80343aac
-.set InsertAlarm, 0x80343778
+.set Nametag_LoadSlotText,func_8023754C
+.set Nametag_SetNameAsInUse,func_80237A04
+.set Nametag_GetNametagBlock,func_8015CC9C
 
 ## Common/memory management
-.set va_arg, 0x80322620
-.set OSReport,0x803456a8
-.set memcpy,0x800031f4
-.set memcmp,0x803238c8
-.set strcpy,0x80325a50
-.set strlen,0x80325b04
-.set sprintf,0x80323cf4
-.set Zero_AreaLength,0x8000c160
-.set TRK_flush_cache,0x80328f50
-.set FileLoad_ToPreAllocatedSpace,0x80016580
-.set DiscError_ResumeGame,0x80024f6c
+.set Zero_AreaLength,func_8000C160
+.set FileLoad_ToPreAllocatedSpace,func_80016580
+.set DiscError_ResumeGame,func_80024F6C
 
 ## PlayerBlock/game-state related functions
-.set PlayerBlock_LoadStaticBlock,0x80031724
-.set PlayerBlock_UpdateCoords,0x80032828
-.set PlayerBlock_LoadExternalCharID,0x80032330
-.set PlayerBlock_LoadRemainingStocks,0x80033bd8
-.set PlayerBlock_LoadSlotType,0x8003241c
-.set PlayerBlock_LoadDataOffsetStart,0x8003418c
-.set PlayerBlock_LoadTeamID,0x80033370
-.set PlayerBlock_StoreInitialCoords,0x80032768
-.set PlayerBlock_LoadPlayerXPosition,0x800326cc
-.set PlayerBlock_UpdateFacingDirection,0x80033094
-.set PlayerBlock_LoadMainCharDataOffset,0x80034110
-.set SpawnPoint_GetXYZFromSpawnID,0x80224e64
-.set Damage_UpdatePercent,0x8006cc7c
-.set MatchEnd_GetWinningTeam,0x801654a0
+.set PlayerBlock_LoadStaticBlock,Player_GetPtrForSlot
+.set PlayerBlock_UpdateCoords,Player_80032828
+.set PlayerBlock_LoadExternalCharID,Player_GetPlayerCharacter
+.set PlayerBlock_LoadRemainingStocks,Player_GetStocks
+.set PlayerBlock_LoadSlotType,Player_GetPlayerSlotType
+.set PlayerBlock_LoadDataOffsetStart,Player_GetEntityAtIndex
+.set PlayerBlock_LoadTeamID,Player_GetTeam
+.set PlayerBlock_StoreInitialCoords,Player_80032768
+.set PlayerBlock_LoadPlayerXPosition,Player_LoadPlayerCoords
+.set PlayerBlock_UpdateFacingDirection,Player_SetFacingDirection
+.set PlayerBlock_LoadMainCharDataOffset,Player_GetEntity
+.set SpawnPoint_GetXYZFromSpawnID,Stage_80224E64
+.set Damage_UpdatePercent,Fighter_TakeDamage_8006CC7C
+.set MatchEnd_GetWinningTeam,func_801654A0
 
 ## Camera functions
-.set Camera_UpdatePlayerCameraBox,0x800761c8
-.set Camera_CorrectPosition,0x8002f3ac
+.set Camera_UpdatePlayerCameraBox,func_800761C8
+.set Camera_CorrectPosition,func_8002F3AC
 
 ## Audio/SFX functions
-.set SFX_StopSFXInstance, 0x800236b8
-.set Audio_AdjustMusicSFXVolume,0x80025064
-.set SFX_Menu_CommonSound,0x80024030
-.set SFX_PlaySoundAtFullVolume, 0x800237a8 #SFX_PlaySoundAtFullVolume(r3=soundid,r4=volume?,r5=priority)
+.set SFX_StopSFXInstance, func_800236B8
+.set Audio_AdjustMusicSFXVolume,func_80025064
+.set SFX_Menu_CommonSound,func_80024030
+.set SFX_PlaySoundAtFullVolume, func_800237A8 #SFX_PlaySoundAtFullVolume(r3=soundid,r4=volume?,r5=priority)
 
 ## Scene/input-related functions
-.set NoContestOrRetry_,0x8016cf4c
-.set fetchAnimationHeader,0x80085fd4
-.set Damage_UpdatePercent,0x8006cc7c
-.set Obj_ChangeRotation_Yaw,0x8007592c
-.set MenuController_ChangeScreenMinor,0x801a4b60
-.set SinglePlayerModeCheck,0x8016b41c
-.set CheckIfGameEnginePaused,0x801a45e8
-.set Inputs_GetPlayerHeldInputs,0x801a3680
-.set Inputs_GetPlayerInstantInputs,0x801A36A0
-.set Rumble_StoreRumbleFlag,0x8015ed4c
-.set Audio_AdjustMusicSFXVolume,0x80025064
-.set DiscError_ResumeGame,0x80024f6c
-.set RenewInputs_Prefunction,0x800195fc
-.set PadAlarmCheck,0x80019894
-.set Event_StoreSceneNumber,0x80229860
-.set EventMatch_Store,0x801beb74
-.set PadRead,0x8034da00
+.set NoContestOrRetry_,func_8016CF4C
+.set fetchAnimationHeader,func_80085FD4
+.set Damage_UpdatePercent,Fighter_TakeDamage_8006CC7C
+.set Obj_ChangeRotation_Yaw,func_8007592C
+.set MenuController_ChangeScreenMinor,func_801A4B60
+.set SinglePlayerModeCheck,func_8016B41C
+.set CheckIfGameEnginePaused,func_801A45E8
+.set Inputs_GetPlayerHeldInputs,func_801A3680
+.set Inputs_GetPlayerInstantInputs,func_801A36A0
+.set Rumble_StoreRumbleFlag,func_8015ED4C
+.set Audio_AdjustMusicSFXVolume,func_80025064
+.set DiscError_ResumeGame,func_80024F6C
+.set RenewInputs_Prefunction,func_800195FC
+.set PadAlarmCheck,func_80019894
+.set Event_StoreSceneNumber,func_80229860
+.set EventMatch_Store,func_801BEB74
+.set PadRead,PADRead
 
 ## Miscellenia/Unsorted
-.set fetchAnimationHeader,0x80085fd4
-.set Obj_ChangeRotation_Yaw,0x8007592c
-.set Character_GetMaxCostumeCount,0x80169238
+.set fetchAnimationHeader,func_80085FD4
+.set Obj_ChangeRotation_Yaw,func_8007592C
+.set Character_GetMaxCostumeCount,func_80169238
 
 
 ################################################################################
@@ -439,7 +390,7 @@ add \reg, r3, r4
 
 .set CONST_FirstFrameIdx, -123
 
-.set RtocAddress, 0x804df9e0
+.set RtocAddress, _SDA2_BASE_
 
 .set ControllerFixOptions,0xDD8 # Each byte at offset is a player's setting
 .set UCFTextPointers,0x4fa0
@@ -457,7 +408,7 @@ add \reg, r3, r4
 .set FSToggleAddr, RtocAddress + FSToggle
 .set HideWaitingForGameAddress, RtocAddress + HideWaitingForGame
 .set CFOptionsAddress, RtocAddress - ControllerFixOptions
-.set GeckoHeapPtr, 0x80005600
+.set GeckoHeapPtr, lbl_80005600
 
 # Internal scenes
 .set SCENE_TRAINING_CSS, 0x001C
