@@ -4,11 +4,14 @@ ctx.c
 ctx_includes.h
 *.s.c
 
+# Python
+venv/
+
 # .DS_Store
 .DS_Store
 
 # Compiler binaries
-mwcc_compiler/
+/tools/mwcc_compiler
 
 # Build artifacts
 build/

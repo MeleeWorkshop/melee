@@ -1,4 +1,4 @@
-#include <ground.h>
+#include <melee/gr/ground.h>
 
 #include <melee/ft/ftlib.h>
 #include <melee/gr/grdatfiles.h>
@@ -825,7 +825,6 @@ extern u8 lbl_804D784B[5];
 extern void lbl_801C5F60();
 extern u8 lbl_804D7849;
 extern void PSMTXIdentity();
-extern void HSD_JObjAlloc();
 extern void func_8000F9F8();
 extern void func_80013B14();
 extern void HSD_JObjAddNext();
@@ -1714,14 +1713,14 @@ void func_801C2374(HSD_LObj* lobj)
             sp10.x *= phi_f31;
             sp10.y *= phi_f31;
             sp10.z *= phi_f31;
-            func_80366CE8(cur, vtmp);
+            HSD_LObjSetPosition(cur, vtmp);
         }
         if (HSD_LObjGetInterest(cur, &sp10)) {
             vtmp = &sp10;
             sp10.x *= phi_f31;
             sp10.y *= phi_f31;
             sp10.z *= phi_f31;
-            func_80366DB0(cur, vtmp);
+            HSD_LObjSetInterest(cur, vtmp);
         }
         cur = cur == NULL ? NULL : cur->next;
     }
@@ -3400,7 +3399,7 @@ inline HSD_JObj* jobj_next(HSD_JObj* jobj)
 
 HSD_JObj* func_801C4100(HSD_JObj* jobj)
 {
-    if (!(jobj->flags & 0x1000) && jobj_child(jobj) != NULL) {
+    if (!(jobj->flags & JOBJ_INSTANCE) && jobj_child(jobj) != NULL) {
         return jobj_child(jobj);
     }
     if (jobj_next(jobj) != NULL) {
@@ -3575,7 +3574,7 @@ static void lbl_801C461C(HSD_GObj* gobj)
 static void lbl_801C4640(HSD_GObj* gobj)
 {
     func_803668EC(gobj->hsd_obj);
-    func_80365F28(HSD_CObjGetCurrent());
+    HSD_LObjSetupInit(HSD_CObjGetCurrent());
 }
 
 extern u8 lbl_804D784A;
@@ -3696,7 +3695,7 @@ lbl_801C47C0:
 /* 801C47F4 001C13D4  C0 01 00 18 */	lfs f0, 0x18(r1)
 /* 801C47F8 001C13D8  EC 00 07 F2 */	fmuls f0, f0, f31
 /* 801C47FC 001C13DC  D0 01 00 18 */	stfs f0, 0x18(r1)
-/* 801C4800 001C13E0  48 1A 24 E9 */	bl func_80366CE8
+/* 801C4800 001C13E0  48 1A 24 E9 */	bl HSD_LObjSetPosition
 lbl_801C4804:
 /* 801C4804 001C13E4  38 7B 00 00 */	addi r3, r27, 0
 /* 801C4808 001C13E8  38 81 00 10 */	addi r4, r1, 0x10
@@ -3714,7 +3713,7 @@ lbl_801C4804:
 /* 801C4838 001C1418  C0 01 00 18 */	lfs f0, 0x18(r1)
 /* 801C483C 001C141C  EC 00 07 F2 */	fmuls f0, f0, f31
 /* 801C4840 001C1420  D0 01 00 18 */	stfs f0, 0x18(r1)
-/* 801C4844 001C1424  48 1A 25 6D */	bl func_80366DB0
+/* 801C4844 001C1424  48 1A 25 6D */	bl HSD_LObjSetInterest
 lbl_801C4848:
 /* 801C4848 001C1428  28 1B 00 00 */	cmplwi r27, 0
 /* 801C484C 001C142C  40 82 00 0C */	bne lbl_801C4858
@@ -3809,11 +3808,6 @@ lbl_801C4958:
 /* 801C4988 001C1568  4E 80 00 20 */	blr 
 }
 #pragma peephole on
-
-extern struct {
-    u8 x0_pad[0xC];
-    HSD_GObj* xC;
-}* lbl_804D782C;
 
 HSD_GObj* func_801C498C(void)
 {

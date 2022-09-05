@@ -132,13 +132,13 @@ void Fighter_UnkProcessDeath_80068354(struct _HSD_GObj *);
 
 u32 Fighter_NewSpawn_80068E40();
 
-void Fighter_ActionStateChange_800693AC(struct _HSD_GObj *fighterObj, s32 newAction, s32 flags, struct _HSD_GObj *otherObj, f32 animStart, f32 animSpeed, f32 animBlend);
+void Fighter_ActionStateChange_800693AC(struct _HSD_GObj *fighter_gobj, s32 newAction, s32 flags, struct _HSD_GObj *otherObj, f32 animStart, f32 animSpeed, f32 animBlend);
 
 void func_8006E9B4();
 void func_8006EBA4(struct _HSD_GObj *);
-void func_8006EBE8(struct _HSD_GObj *fighterObj, f32, f32, f32);
+void func_8006EBE8(struct _HSD_GObj *fighter_gobj, f32, f32, f32);
 
-void func_8006F0FC(struct _HSD_GObj *fighterObj, f32);
+void func_8006F0FC(struct _HSD_GObj *fighter_gobj, f32);
 void ftAnim_SetAnimRate(struct _HSD_GObj *, f32);
 BOOL ftAnim_IsFramesRemaining(struct _HSD_GObj *);
 
@@ -206,7 +206,7 @@ void func_8007ABD0(struct _Hitbox *, u32 damageAmount, struct _HSD_GObj *);
 void func_8007AE80();
 void func_8007AEE0(struct _HSD_GObj *);
 
-void func_8007AF28(struct _HSD_GObj *fighterObj);
+void func_8007AF28(struct _HSD_GObj *fighter_gobj);
 
 void func_8007AFF8(struct _HSD_GObj *);
 
@@ -230,14 +230,7 @@ void func_8007BAC0();
 f32 func_8007BBCC(struct _HSD_GObj *);
 void func_8007BC90();
 void func_8007BE3C(struct _HSD_GObj *);
-void func_8007C114();
-void func_8007C17C(struct _HSD_GObj *);
-void func_8007C224();
 
-void func_8007C4BC();
-void func_8007C630(struct _HSD_GObj *);
-void func_8007C6DC();
-void func_8007C77C();
 void func_8007C930(struct _Fighter *, f32);
 
 void func_8007CB74(struct _HSD_GObj *);
@@ -310,42 +303,7 @@ void func_8008031C();
 f32 func_800804EC(struct _Fighter *); // DataOffset_PlayerScale_MultiplyBySomething, returns fp->x40*fp->x34
 void func_800804FC();
 
-void func_80081938(struct _HSD_GObj *);
 void func_800819A8();
-
-void func_80081B38(struct _HSD_GObj *);
-void func_80081C88(struct _HSD_GObj *, f32);
-s32 func_80081D0C(struct _HSD_GObj *);
-
-s32 func_800821DC();
-s32 func_8008239C(HSD_GObj *, s32, f32 *);
-
-s32 func_80082708(struct _HSD_GObj *);
-s32 func_800827A0(struct _HSD_GObj *);
-
-s32 func_80082A68(struct _HSD_GObj *);
-void func_80082B1C(struct _HSD_GObj *); /* extern */
-
-struct _HSD_GObj *func_80082E3C(struct _HSD_GObj *);
-
-void func_800831CC(struct _HSD_GObj *, s32 (*)(struct _HSD_GObj *), void (*)(struct _HSD_GObj *));
-
-void func_80083B68(struct _HSD_GObj *);
-
-void func_80083F88(struct _HSD_GObj *);
-
-void func_80084104(struct _HSD_GObj *);
-
-f32 func_80084A40(struct _Fighter *); // Stage_GetGroundFrictionMultiplier very short function
-
-void func_80084EEC(struct _HSD_GObj *);
-void func_80084F3C(struct _HSD_GObj *);
-void func_80084FA8(struct _HSD_GObj *);
-
-void func_80085134(struct _HSD_GObj *);
-void func_80085154(struct _HSD_GObj *);
-
-void func_80085204(struct _HSD_GObj *);
 
 void func_800852B0();
 void func_8008549C();
@@ -482,7 +440,7 @@ s32 func_800C0694();
 
 void func_800C09B4(struct _HSD_GObj *);
 
-void func_800C0A98(struct _HSD_GObj *fighterObj);
+void func_800C0A98(struct _HSD_GObj *fighter_gobj);
 
 void func_800C1E64(struct _HSD_GObj *pPlayerEntityStruct, s32, s32, u8, f32); // UnclePunch Map file: AS_203_PassiveWalljump_Walljump
 
@@ -533,7 +491,7 @@ void func_800D1E80();
 
 void func_800D237C();
 
-void func_800D3158(struct _HSD_GObj *fighterObj);
+void func_800D3158(struct _HSD_GObj *fighter_gobj);
 
 void func_800D4F24(struct _HSD_GObj *, s32);
 
@@ -566,7 +524,7 @@ void func_800DE508(HSD_GObj *);
 
 void func_800DE7C0(struct _HSD_GObj *, s32, s32);
 
-void func_800DEEA8(struct _HSD_GObj *fighterObj);
+void func_800DEEA8(struct _HSD_GObj *fighter_gobj);
 
 u32 func_800DEEE8(struct _Fighter *, struct _Vec2 *);
 void func_800DEF38();
@@ -601,7 +559,7 @@ void ftNess_SpecialHiTakeDamage(struct _HSD_GObj *);
 
 void ftPikachu_LoadSpecialAttrs(struct _HSD_GObj *);
 
-f32 ftSamus_80128AC8(HSD_GObj *fighterObj, f32 farg1, f32 farg2);
+f32 ftSamus_80128AC8(HSD_GObj *fighter_gobj, f32 farg1, f32 farg2);
 void ftSamus_80128B1C(HSD_GObj *, f32, f32, f32);
 
 void ftMars_OnLoadForRoy(struct _Fighter *);
@@ -739,8 +697,6 @@ void func_801C95C4(struct _HSD_GObj *);
 
 s32 Stage_80225194(void);
 
-void func_8026A8EC();
-
 void func_8026ABD8(struct _HSD_GObj *, Vec *, f32);
 
 BOOL func_8026B2B4(struct _HSD_GObj *);
@@ -845,8 +801,6 @@ void HSD_AObjRemove(struct _HSD_AObj *aobj);
 
 void HSD_ForeachAnim(void *, ...);
 
-void func_80366BD4();
-
 struct _HSD_WObj *HSD_LObjGetPositionWObj(struct _HSD_LObj *);
 struct _HSD_WObj *HSD_LObjGetInterestWObj(struct _HSD_LObj *);
 
@@ -902,7 +856,6 @@ void func_80390228(struct _HSD_GObj *);
 
 void efLib_PauseAll(struct _HSD_GObj *);
 void efLib_ResumeAll(struct _HSD_GObj *);
-BOOL EnvColl_CheckGroundAndLedge(HSD_GObj *, s32);
 s32 func_80096CC8(struct _HSD_GObj *);
 void ef_Spawn(s32, ...);
 f32 HSD_Randf(void);

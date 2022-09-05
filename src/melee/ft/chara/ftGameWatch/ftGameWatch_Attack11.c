@@ -1,4 +1,4 @@
-#include <ftgamewatch.h>
+#include <melee/ft/chara/ftGameWatch/ftgamewatch.h>
 
 extern HSD_GObj* func_802C61F4(HSD_GObj*, Vec3*, s32, f32);
 
@@ -197,8 +197,6 @@ void ftGameWatch_Attack11_IASA(HSD_GObj* fighter_gobj)
 {
     func_8008ACD8(fighter_gobj);
 }
-
-extern void func_80084FA8(HSD_GObj*);
 
 // 0x8014C194 - Mr. Game & Watch's Jab Physics callback
 void ftGameWatch_Attack11_Phys(HSD_GObj* fighter_gobj)

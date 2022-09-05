@@ -1,4 +1,4 @@
-#include <ftmario.h>
+#include <melee/ft/chara/ftMario/ftmario.h>
 #include <sysdolphin/baselib/random.h>
 
 #include <melee/it/itkind.h>
@@ -44,8 +44,8 @@ void ftMario_OnTakeDamage(HSD_GObj* gobj)
     ftMario_SpecialS_RemoveCape(gobj);
 }
 
-void ftMario_OnItemPickup(HSD_GObj* fighterObj, BOOL bool) {
-    Fighter_OnItemPickup(fighterObj, bool, 1, 1);
+void ftMario_OnItemPickup(HSD_GObj* fighter_gobj, BOOL bool) {
+    Fighter_OnItemPickup(fighter_gobj, bool, 1, 1);
 }
 
 void ftMario_OnItemInvisible(HSD_GObj* gobj) {

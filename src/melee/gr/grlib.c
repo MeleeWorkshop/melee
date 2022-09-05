@@ -1,9 +1,8 @@
-#include <grlib.h>
+#include <melee/gr/grlib.h>
 #include <sysdolphin/baselib/psappsrt.h>
 
 extern StageInfo stage_info;
 extern u8 lbl_804D7849;
-extern void* lbl_804D782C;
 extern struct _UnkEffectStruct* lbl_804D78FC;
 
 static Vec lbl_8049EF58[6];
@@ -133,7 +132,7 @@ void func_801C9908(HSD_JObj* jobj)
         }
     }
 
-    if (jobj->flags & 0x1000) {
+    if (jobj->flags & JOBJ_INSTANCE) {
         return;
     }
 

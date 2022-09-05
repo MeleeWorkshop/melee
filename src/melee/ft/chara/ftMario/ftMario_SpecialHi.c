@@ -1,4 +1,4 @@
-#include <ftmario.h>
+#include <melee/ft/chara/ftMario/ftmario.h>
 #include <sysdolphin/baselib/random.h>
 
 #include <melee/it/itkind.h>
@@ -51,7 +51,7 @@ void ftMario_SpecialAirHi_Anim(HSD_GObj* gobj)
 }
 
 #define DEGREES_TO_RADIANS (3.14159265359f / 180.0f)
-#define HALF_PI 1.5707963267948966
+#define HALF_PI (M_PI / 2)
 
 #define abs(x) (x < 0.0f ? -x : x)
 

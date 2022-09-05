@@ -1,4 +1,4 @@
-#include <ftgamewatch.h>
+#include <melee/ft/chara/ftGameWatch/ftgamewatch.h>
 
 extern HSD_GObj* func_802C6C38(HSD_GObj*, Vec3*, s32, f32);
 
@@ -404,7 +404,6 @@ void ftGameWatch_AttackAirN_Coll(HSD_GObj* fighter_gobj)
     func_80082C74(fighter_gobj, ftGameWatch_LandingAirN_Action);
 }
 
-void func_800D5BF8(HSD_GObj*);
 void ftGameWatch_LandingAirN_Init(HSD_GObj*);
 
 // 0x8014B7A8
